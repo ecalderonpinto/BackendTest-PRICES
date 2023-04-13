@@ -25,16 +25,20 @@ public class PricesController {
 	public PriceResponse getPrice(@RequestBody PriceRequest request) {
 
 		PriceResponse response = new PriceResponse();
+
+		List<PricesDTO> result = this.pricesService.findByProductIdAndBrandIdAndDate(request.getProductId(),
+				request.getBrandId(), request.getDate());
 		
-		List<PricesDTO> result = this.pricesService.findByProductIdAndBrandIdAndDate(request.getProductId(), request.getBrandId(), request.getDate());
-		response.setBrandId(result.get(0).getBrandId());
-		response.setEndDate(result.get(0).getEndDate());
-		response.setPrice(result.get(0).getPrice());
-		response.setPriceList(result.get(0).getPriceList());
-		response.setProductId(result.get(0).getProductId());
-		response.setStartDate(result.get(0).getStartDate());
+		if (result.size() > 0) {
+			response.setBrandId(result.get(0).getBrandId());
+			response.setEndDate(result.get(0).getEndDate());
+			response.setPrice(result.get(0).getPrice());
+			response.setPriceList(result.get(0).getPriceList());
+			response.setProductId(result.get(0).getProductId());
+			response.setStartDate(result.get(0).getStartDate());
+		}
 		
 		return response;
-		
+
 	}
 }
